@@ -21,12 +21,12 @@
 	"fileUploadService_Url": "https://wew.wtf/upload.php",
 	"fileUploadService_Field": "files[]",
 	"background": {
-		"Creative": "wallpaper.jpg",
+		"Creative": "background.jpg",
 		"Customizado": "URL"
 	},
 	"background_default": {
 		"label": "Creative",
-		"value": "wallpaper.jpg"
+		"value": "background.jpg"
 	},
 	"coque": {
 		"Default": "background.png"
