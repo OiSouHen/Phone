@@ -110,7 +110,7 @@ function (t, e, n) {
 						case 0:
 							return s = void 0 === n ? "{}": l()(n),
 							t.next = 3,
-							window.jQuery.post("http://gcphone/" + e, s);
+							window.jQuery.post("http://smartphone/" + e, s);
 						case 3:
 							return o = t.sent,
 							t.abrupt("return", JSON.parse(o));

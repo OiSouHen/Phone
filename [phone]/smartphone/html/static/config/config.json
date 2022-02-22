@@ -40,7 +40,7 @@
 		"backgroundColor": "#40475c",
 		"subMenu": [{
 			"title": "Chamar",
-			"eventName": "gcphone:submitCaller",
+			"eventName": "smartphone:submitCaller",
 			"type": { "number": "Police" }
 		}]
 	},{
@@ -48,7 +48,7 @@
 		"backgroundColor": "#40475c",
 		"subMenu": [{
 			"title": "Chamar",
-			"eventName": "gcphone:submitCaller",
+			"eventName": "smartphone:submitCaller",
 			"type": { "number": "Paramedic" }
 		}]
 	},{
@@ -56,7 +56,7 @@
 		"backgroundColor": "#40475c",
 		"subMenu": [{
 			"title": "Chamar",
-			"eventName": "gcphone:submitCaller",
+			"eventName": "smartphone:submitCaller",
 			"type": { "number": "Taxi" }
 		}]
 	}],

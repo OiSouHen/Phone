@@ -8,8 +8,8 @@ vRP = Proxy.getInterface("vRP")
 -- CONNECTION
 -----------------------------------------------------------------------------------------------------------------------------------------
 cRP = {}
-Tunnel.bindInterface("gcphone",cRP)
-vSERVER = Tunnel.getInterface("gcphone")
+Tunnel.bindInterface("smartphone",cRP)
+vSERVER = Tunnel.getInterface("smartphone")
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- KEYTOUCHECLOSEEVENT
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -63,8 +63,8 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- REMOVEPHONE
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcphone:removePhone")
-AddEventHandler("gcphone:removePhone",function()
+RegisterNetEvent("smartphone:removePhone")
+AddEventHandler("smartphone:removePhone",function()
 	if menuIsOpen then
 		menuIsOpen = false
 		vRP._removeObjects("one")
@@ -107,8 +107,8 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- ACTIVEPHONE
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:activePhone")
-AddEventHandler("gcPhone:activePhone",function()
+RegisterNetEvent("Smartphone:activePhone")
+AddEventHandler("Smartphone:activePhone",function()
 	if phoneActive then
 		phoneActive = false
 		TriggerEvent("Notify","azul","Desativado o modo avião.",3000)
@@ -120,31 +120,31 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- MYPHONENUMBER
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:myPhoneNumber")
-AddEventHandler("gcPhone:myPhoneNumber",function(myPhoneNumber)
+RegisterNetEvent("Smartphone:myPhoneNumber")
+AddEventHandler("Smartphone:myPhoneNumber",function(myPhoneNumber)
 	SendNUIMessage({ event = "updateMyPhoneNumber", myPhoneNumber = myPhoneNumber })
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- CONTACTLIST
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:contactList")
-AddEventHandler("gcPhone:contactList",function(_contacts)
+RegisterNetEvent("Smartphone:contactList")
+AddEventHandler("Smartphone:contactList",function(_contacts)
 	SendNUIMessage({ event = "updateContacts", contacts = _contacts })
 	contacts = _contacts
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- ALLMESSAGES
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:allMessage")
-AddEventHandler("gcPhone:allMessage",function(allmessages)
+RegisterNetEvent("Smartphone:allMessage")
+AddEventHandler("Smartphone:allMessage",function(allmessages)
 	SendNUIMessage({ event = "updateMessages", messages = allmessages })
 	messages = allmessages
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- RECEIVEMESSAGE
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:receiveMessage")
-AddEventHandler("gcPhone:receiveMessage",function(message)
+RegisterNetEvent("Smartphone:receiveMessage")
+AddEventHandler("Smartphone:receiveMessage",function(message)
 	SendNUIMessage({ event = "newMessage", message = message })
 
 	if message["owner"] == 0 and vSERVER.checkPhone() and not IsEntityInWater(PlayerPedId()) and not phoneActive then
@@ -158,8 +158,8 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- WAITINGCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:waitingCall")
-AddEventHandler("gcPhone:waitingCall",function(infoCall,initiator)
+RegisterNetEvent("Smartphone:waitingCall")
+AddEventHandler("Smartphone:waitingCall",function(infoCall,initiator)
 	if not initiator and vSERVER.checkPhone() and not phoneActive then
 		SendNUIMessage({ event = "waitingCall", infoCall = infoCall, initiator = initiator })
 	end
@@ -177,8 +177,8 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- ACCEPTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:acceptCall")
-AddEventHandler("gcPhone:acceptCall",function(infoCall,initiator)
+RegisterNetEvent("Smartphone:acceptCall")
+AddEventHandler("Smartphone:acceptCall",function(infoCall,initiator)
 	exports["tokovoip_script"]:addPlayerToRadio(infoCall["id"])
 	tokovoipNumber = infoCall["id"]
 
@@ -190,8 +190,8 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- REJECTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:rejectCall")
-AddEventHandler("gcPhone:rejectCall",function(infoCall)
+RegisterNetEvent("Smartphone:rejectCall")
+AddEventHandler("Smartphone:rejectCall",function(infoCall)
 	if tokovoipNumber ~= nil then
 		exports["tokovoip_script"]:removePlayerFromRadio(tokovoipNumber)
 		tokovoipNumber = nil
@@ -207,23 +207,23 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- HISTORIQUECALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:historiqueCall")
-AddEventHandler("gcPhone:historiqueCall",function(historique)
+RegisterNetEvent("Smartphone:historiqueCall")
+AddEventHandler("Smartphone:historiqueCall",function(historique)
 	SendNUIMessage({ event = "historiqueCall", historique = historique })
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- STARTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("startCall",function(data,cb)
-	TriggerServerEvent("gcPhone:startCall",data["numero"],data["rtcOffer"],data["extraData"])
+	TriggerServerEvent("Smartphone:startCall",data["numero"],data["rtcOffer"],data["extraData"])
 
 	cb()
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- CALLNOTIFYPUSH
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:callNotifyPush")
-AddEventHandler("gcPhone:callNotifyPush",function(number)
+RegisterNetEvent("Smartphone:callNotifyPush")
+AddEventHandler("Smartphone:callNotifyPush",function(number)
 	if not IsEntityInWater(PlayerPedId()) and vSERVER.checkPhone() then
 		menuIsOpen = true
 		SendNUIMessage({ show = true })
@@ -232,14 +232,14 @@ AddEventHandler("gcPhone:callNotifyPush",function(number)
 
 		Citizen.Wait(1000)
 
-		TriggerServerEvent("gcPhone:startCall",tostring(number),nil,nil)
+		TriggerServerEvent("Smartphone:startCall",tostring(number),nil,nil)
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- ACCEPTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("acceptCall",function(data,cb)
-	TriggerServerEvent("gcPhone:acceptCall",data["infoCall"],data["rtcAnswer"])
+	TriggerServerEvent("Smartphone:acceptCall",data["infoCall"],data["rtcAnswer"])
 
 	cb()
 end)
@@ -247,7 +247,7 @@ end)
 -- REJECTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("rejectCall",function(data,cb)
-	TriggerServerEvent("gcPhone:rejectCall",data["infoCall"])
+	TriggerServerEvent("Smartphone:rejectCall",data["infoCall"])
 
 	cb()
 end)
@@ -255,7 +255,7 @@ end)
 -- IGNORECALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("ignoreCall",function(data,cb)
-	TriggerServerEvent("gcPhone:ignoreCall",data["infoCall"])
+	TriggerServerEvent("Smartphone:ignoreCall",data["infoCall"])
 
 	cb()
 end)
@@ -274,22 +274,22 @@ end)
 -- ONCANDIDATES
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("onCandidates",function(data,cb)
-	TriggerServerEvent("gcPhone:candidates",data["id"],data["candidates"])
+	TriggerServerEvent("Smartphone:candidates",data["id"],data["candidates"])
 
 	cb()
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- CANDIDATES
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcPhone:candidates")
-AddEventHandler("gcPhone:candidates",function(candidates)
+RegisterNetEvent("Smartphone:candidates")
+AddEventHandler("Smartphone:candidates",function(candidates)
 	SendNUIMessage({ event = "candidatesAvailable", candidates = candidates })
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- AUTOCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcphone:autoCall")
-AddEventHandler("gcphone:autoCall",function(number,extraData)
+RegisterNetEvent("smartphone:autoCall")
+AddEventHandler("smartphone:autoCall",function(number,extraData)
 	if number ~= nil then
 		SendNUIMessage({ event = "autoStartCall", number = number, extraData = extraData })
 	end
@@ -297,15 +297,15 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- AUTOCALLNUMBER
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcphone:autoCallNumber")
-AddEventHandler("gcphone:autoCallNumber",function(data)
-	TriggerEvent("gcphone:autoCall",data.number)
+RegisterNetEvent("smartphone:autoCallNumber")
+AddEventHandler("smartphone:autoCallNumber",function(data)
+	TriggerEvent("smartphone:autoCall",data.number)
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- AUTOACCEPTCALL
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent("gcphone:autoAcceptCall")
-AddEventHandler("gcphone:autoAcceptCall",function(infoCall)
+RegisterNetEvent("smartphone:autoAcceptCall")
+AddEventHandler("smartphone:autoAcceptCall",function(infoCall)
 	SendNUIMessage({ event = "autoAcceptCall", infoCall = infoCall })
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -367,7 +367,7 @@ RegisterNUICallback("sendMessage",function(data,cb)
 		data["message"] = "Localização: "..mathLegth(myPos["x"])..", "..mathLegth(myPos["y"])
 	end
 
-	TriggerServerEvent("gcPhone:sendMessage",data["phoneNumber"],data["message"])
+	TriggerServerEvent("Smartphone:sendMessage",data["phoneNumber"],data["message"])
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- DELETEMESSAGE
@@ -376,7 +376,7 @@ RegisterNUICallback("deleteMessage",function(data,cb)
 	for k,v in ipairs(messages) do
 		if v["id"] == id then
 			table.remove(messages,k)
-			TriggerServerEvent("gcPhone:deleteMessage",id)
+			TriggerServerEvent("Smartphone:deleteMessage",id)
 			SendNUIMessage({ event = "updateMessages", messages = messages })
 			break
 		end
@@ -388,7 +388,7 @@ end)
 -- DELETEMESSAGENUMBER
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("deleteMessageNumber",function(data,cb)
-	TriggerServerEvent("gcPhone:deleteMessageNumber",data["number"])
+	TriggerServerEvent("Smartphone:deleteMessageNumber",data["number"])
 
 	cb()
 end)
@@ -396,7 +396,7 @@ end)
 -- DELETEALLMESSAGE
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("deleteAllMessage",function(data,cb)
-	TriggerServerEvent("gcPhone:deleteAllMessage")
+	TriggerServerEvent("Smartphone:deleteAllMessage")
 
 	cb()
 end)
@@ -406,7 +406,7 @@ end)
 RegisterNUICallback("setReadMessageNumber",function(data,cb)
 	for k,v in ipairs(messages) do
 		if v["transmitter"] == data["number"] then
-			TriggerServerEvent("gcPhone:setReadMessageNumber",data["number"])
+			TriggerServerEvent("Smartphone:setReadMessageNumber",data["number"])
 			v["isRead"] = 1
 			break
 		end
@@ -418,19 +418,19 @@ end)
 -- ADDCONTACT
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("addContact",function(data,cb) 
-	TriggerServerEvent("gcPhone:addContact",data["display"],data["phoneNumber"])
+	TriggerServerEvent("Smartphone:addContact",data["display"],data["phoneNumber"])
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- UPDATECONTACT
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("updateContact",function(data,cb)
-	TriggerServerEvent("gcPhone:updateContact",data["id"],data["display"],data["phoneNumber"])
+	TriggerServerEvent("Smartphone:updateContact",data["id"],data["display"],data["phoneNumber"])
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- DELETECONTACT
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("deleteContact",function(data,cb)
-	TriggerServerEvent("gcPhone:deleteContact",data["id"])
+	TriggerServerEvent("Smartphone:deleteContact",data["id"])
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- GETCONTACTS
@@ -451,7 +451,7 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("callEvent",function(data,cb)
 	local eventName = data["eventName"] or ""
-	if string.match(eventName,"gcphone") then
+	if string.match(eventName,"smartphone") then
 		if data["data"] ~= nil then 
 			TriggerEvent(data["eventName"],data["data"])
 		else
@@ -471,7 +471,7 @@ end)
 -- DELETEALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("deleteALL",function(data,cb)
-	TriggerServerEvent("gcPhone:deleteALL")
+	TriggerServerEvent("Smartphone:deleteALL")
 
 	cb()
 end)
@@ -492,7 +492,7 @@ end)
 -- APPELSDELETEHISTORIQUE
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("appelsDeleteHistorique",function(data,cb)
-	TriggerServerEvent("gcPhone:appelsDeleteHistorique",data["numero"])
+	TriggerServerEvent("Smartphone:appelsDeleteHistorique",data["numero"])
 
 	cb()
 end)
@@ -500,7 +500,7 @@ end)
 -- APPELSDELETEALLHISTORIQUE
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("appelsDeleteAllHistorique",function(data,cb)
-	TriggerServerEvent("gcPhone:appelsDeleteAllHistorique")
+	TriggerServerEvent("Smartphone:appelsDeleteAllHistorique")
 
 	cb()
 end)
@@ -508,8 +508,8 @@ end)
 -- ONCLIENTRESOURCESTART
 -----------------------------------------------------------------------------------------------------------------------------------------
 AddEventHandler("onClientResourceStart",function(res)
-	if res == "gcphone" then
-		TriggerServerEvent("gcPhone:allUpdate")
+	if res == "smartphone" then
+		TriggerServerEvent("Smartphone:allUpdate")
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
