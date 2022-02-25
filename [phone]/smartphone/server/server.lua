@@ -51,6 +51,11 @@ function cRP.checkPhone()
 			TriggerClientEvent("Notify",source,"amarelo","Precisa de <b>1x "..itemName("cellphone").."</b>.",5000)
 			return false
 		end
+
+		if vRP.checkBroken(consultPhone[2]) then
+			TriggerClientEvent("Notify",source,"vermelho","<b>"..itemName("cellphone").."</b> quebrado.",5000)
+			return false
+		end
 	end
 
 	return true
