@@ -1,5 +1,3 @@
-USE `summerz`;
-
 DROP TABLE IF EXISTS `phone_calls`;
 CREATE TABLE `phone_calls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
